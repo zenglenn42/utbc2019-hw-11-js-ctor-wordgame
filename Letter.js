@@ -24,7 +24,10 @@ function Letter(stringValue, beenGuessed = false, placeHolder = "_") {
     this.beenGuessed = beenGuessed
     this.placeHolder = placeHolder
     this.toString = () => (this.beenGuessed) ? this.stringValue : this.placeHolder
-    this.checkLetter = (letter) => this.beenGuessed = (letter === this.stringValue)
+    this.checkLetter = (letter) => {
+      if (this.beenGuessed) return false // don't retest already guessed letter
+      return this.beenGuessed = (letter === this.stringValue)
+    }
 }
 module.exports = Letter
 
@@ -76,4 +79,4 @@ function UnitTest() {
   console.log(`\nTest results: ${nPassed} passed, ${nFailed} failed\n`)
 }
 
-// UnitTest()
+UnitTest()
