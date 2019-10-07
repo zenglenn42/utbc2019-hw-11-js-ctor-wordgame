@@ -20,13 +20,18 @@ This file contains a 'Letter' constructor with the following behaviors:
 */
 
 function Letter(stringValue, beenGuessed = false, placeHolder = "_") {
+    this.caseInsensitive = true
     this.stringValue = stringValue
     this.beenGuessed = beenGuessed
     this.placeHolder = placeHolder
     this.toString = () => (this.beenGuessed) ? this.stringValue : this.placeHolder
     this.checkLetter = (letter) => {
       if (this.beenGuessed) return false // don't retest already guessed letter
-      return this.beenGuessed = (letter === this.stringValue)
+      if (this.caseInsensitive) {
+        return this.beenGuessed = (letter.toLowerCase() === this.stringValue.toLowerCase())
+      } else {
+        return this.beenGuessed = (letter === this.stringValue)
+      }
     }
 }
 module.exports = Letter
@@ -34,9 +39,9 @@ module.exports = Letter
 function UnitTest() {
   const testData = [
     {
-      desc: "Check if 'l' === 'l'",
+      desc: "Check if 'l' === 'L'",
       letter: "l",
-      guessedLetter: "l",
+      guessedLetter: "L",
       expectCheckLetter: true,
       expect: "pass"
     },
@@ -79,4 +84,4 @@ function UnitTest() {
   console.log(`\nTest results: ${nPassed} passed, ${nFailed} failed\n`)
 }
 
-UnitTest()
+// UnitTest()
