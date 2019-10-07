@@ -41,11 +41,18 @@ function UnitTest() {
       expect: "fail"  // This is a negative test case.  We expect failure.
     },
     {
-      desc: "Check for 'a' in 'A'",
-      word: "",
+      desc: "Check for 'A' in 'a'",
+      word: "a",
+      guessedLetter: "A",
+      expectString: "a",
+      expect: "pass"
+    },
+    {
+      desc: "Check for 'a' in 'Apple'",
+      word: "Apple",
       guessedLetter: "a",
-      expectString: "_",
-      expect: "fail"  // Fail since test is case-sensitive.
+      expectString: "A _ _ _ _",
+      expect: "pass"
     }
   ]
 
