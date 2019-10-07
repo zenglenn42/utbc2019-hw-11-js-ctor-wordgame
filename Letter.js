@@ -19,15 +19,14 @@ This file contains a 'Letter' constructor with the following behaviors:
 
 */
 
-class Letter {
-  constructor(stringValue, beenGuessed = false, placeHolder = "_") {
+function Letter(stringValue, beenGuessed = false, placeHolder = "_") {
     this.stringValue = stringValue
     this.beenGuessed = beenGuessed
     this.placeHolder = placeHolder
     this.toString = () => (this.beenGuessed) ? this.stringValue : this.placeHolder
     this.checkLetter = (letter) => this.beenGuessed = (letter === this.stringValue)
-  }
 }
+module.exports = Letter
 
 function UnitTest() {
   const testData = [
@@ -45,13 +44,13 @@ function UnitTest() {
       expectCheckLetter: false,
       expect: "fail"  // This is a negative test case.  We expect failure.
     },
-    {
-      desc: "Check if 'a' === 'c'",
-      letter: "a",
-      guessedLetter: "c",
-      expectCheckLetter: true,
-      expect: "pass"  // This is a failing test case.
-    }
+    // {
+    //   desc: "Check if 'a' === 'c'",
+    //   letter: "a",
+    //   guessedLetter: "c",
+    //   expectCheckLetter: true,
+    //   expect: "pass"  // This is a failing test case.
+    // }
   ]
 
   console.log()
