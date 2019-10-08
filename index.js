@@ -13,7 +13,8 @@
  var movieTitles = require('./movies')
  var Word = require('./Word')
  
-const wordDelim = "   " // Spacing between words.
+const WORD_DELIM = "   " // Spacing between words.
+const MAX_WRONG_GUESSES = 3
 
 var gamePrompt = [
   {
@@ -46,7 +47,8 @@ function playGame() {
     if (answers.playGame) {
       playRound()
     } else {
-      console.log("Ok, maybe next time.")
+      console.log("Goodbye")
+      return
     }
   })
 }
@@ -61,11 +63,43 @@ function playRound() {
   // Transform movie title string to an array of word objects.
   let movieWords = movieTitle.split(" ").map(word => new Word(word))
 
-  // Fetch movie title in 'Wheel of Fortune' format, with
-  // unguessed letters represented with blanks.
-  let guessSoFar = movieWords.map(wordObj => wordObj.toString()).join(wordDelim)
+  let currGuess = movieWords.map(wordObj => wordObj.toString()).join(WORD_DELIM)
+  let remainingMisses = MAX_WRONG_GUESSES
+  let solved = false
+  guessLetters(currGuess, remainingMisses, movieWords, solved)
+}
 
-  console.log(guessSoFar)
+function guessLetters(prevGuess, remainingMisses, movieWords, solved) {
+  if (remainingMisses > 0 && !solved) {
+    console.log(prevGuess)
+    inquirer.prompt(letterPrompt).then(answers => {
+      if (answers.guessLetter) {
+        movieWords.map(wordObj => wordObj.guessLetter(answers.guessLetter));
+        let currGuess = movieWords.map(wordObj => wordObj.toString()).join(WORD_DELIM)
+        solved = (currGuess.indexOf('_') === -1)
+        if (solved) {
+          console.log(currGuess)
+          console.log("Congratulations!")
+          playGame()
+        } else {
+            if (currGuess === prevGuess) {
+              remainingMisses--
+              console.log("Incorrect")
+              if (remainingMisses <= 0) {
+                console.log("Sorry, you ran out of guesses.")
+                playGame()
+              }
+            } else {
+              console.log("Correct")
+            }
+            guessLetters(currGuess, remainingMisses, movieWords, solved)
+        }
+      } else {
+        throw new Error("Unexpected inquirer response.")
+      }
+    })
+  }
+  return
 }
 
 playGame()
