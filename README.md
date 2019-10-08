@@ -94,10 +94,6 @@ test cases.  The mix of effort between test code and game code
 felt like 80%/20%, which seemed burdensome but it did
 yield some bug catches (like mispelling a variable name).
 
-Just as words are comprised of letters, so are titles comprised
-of words.  Some object-oriented design would work nicely here if
-I refactored.
-
 I'm sure the inquirer.js package supports some screen management
 that allows re-writing the latest guess of the movie title in
 the same place on the console.
