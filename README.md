@@ -2,7 +2,7 @@
 
 ## Description
 
-This file mimics a movie-themed 'Wheel of Fortune' game.
+This assignment mimics a movie-themed 'Wheel of Fortune' game.
 
 ## Purpose
 
