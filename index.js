@@ -1,26 +1,71 @@
-/*
 
-The file containing the logic for the word-guess game, which depends on `Word.js` and:
+// This file mimics a movie-themed 'Wheel of Fortune' console game.
+//
+// It relies upon a couple word-based and letter-based javascript constructors 
+// for transforming a movie title string into an array of word objects.
+//
+// Word objects are comprised of letter objects that maintain state
+// about which letters have been already guessed correctly.
+//
+// Game play proceeds until the user runs out of turns or guesses the word.
 
-  * Randomly selects a word and uses the `Word` constructor to store it
+ var inquirer = require('inquirer')
+ var movieTitles = require('./movies')
+ var Word = require('./Word')
+ 
+const wordDelim = "   " // Spacing between words.
 
-  * Prompts the user for each guess and keeps track of the user's remaining guesses.
+var gamePrompt = [
+  {
+    type: 'confirm',
+    name: 'playGame',
+    message: "I'm thinking of a movie title.  Want to guess it?",
+    default: true
+  }
+];
 
-*/
+var letterPrompt = [
+  {
+    type: 'input',
+    name: 'guessLetter',
+    message: 'Guess a letter: ',
+    validate: function(value) {
+      var pass = value.match(
+        /^[A-Z,a-z,0-9]$/
+      );
+      if (pass) {
+        return true;
+      }
+      return 'Backup and enter a single letter!';
+    }
+  }
+]
 
-var movieTitles = require('./movies')
-var Word = require('./Word')
+function playGame() {
+  inquirer.prompt(gamePrompt).then(answers => {
+    if (answers.playGame) {
+      playRound()
+    } else {
+      console.log("Ok, maybe next time.")
+    }
+  })
+}
 
-// Here's the core logic
-//   fetch a word phrase from our input array (of movie titles)
-//   create an array of word objects based upon the words in the phrase
-//   annunciate the current word guess
+function playRound() {
+  // Randomly select a movied from an array of several movie titles.
+  let ithMovie = Math.floor(Math.random() * movieTitles.length)
 
-var index = Math.floor(Math.random() * movieTitles.length)
-var movieTitle = movieTitles.splice(index, 1)[0] // fetch and remove movie title from array
-var movieWords = movieTitle.split(" ").map(word => new Word(word))
-const wordDelimeter = "   "
-movieWords.map(word => process.stdout.write(`${word.toString()}${wordDelimeter}`))
-console.log()
+  // Fetch and remove movie from input array.
+  let movieTitle = movieTitles.splice(ithMovie, 1)[0]
 
-// Todo: Guess a word and loop until phrase is solved or we've run out of turns.
+  // Transform movie title string to an array of word objects.
+  let movieWords = movieTitle.split(" ").map(word => new Word(word))
+
+  // Fetch movie title in 'Wheel of Fortune' format, with
+  // unguessed letters represented with blanks.
+  let guessSoFar = movieWords.map(wordObj => wordObj.toString()).join(wordDelim)
+
+  console.log(guessSoFar)
+}
+
+playGame()
