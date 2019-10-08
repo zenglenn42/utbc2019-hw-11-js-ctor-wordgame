@@ -43,11 +43,12 @@ var letterPrompt = [
 ]
 
 function playGame() {
+  console.log()
   inquirer.prompt(gamePrompt).then(answers => {
     if (answers.playGame) {
       playRound()
     } else {
-      console.log("Goodbye")
+      console.log("Goodbye\n")
       return
     }
   })
