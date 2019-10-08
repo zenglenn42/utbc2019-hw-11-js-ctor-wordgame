@@ -18,7 +18,7 @@ The implementation relies upon a couple word-based and letter-based javascript c
 for transforming a movie title string into an array of word objects.
 
 Word objects are comprised of letter objects that maintain state
-about which letters have been already guessed correctly.
+about which letters have already been guessed correctly.
 
 Game play proceeds until the user runs out of 'misses' or guesses the word.
 
