@@ -8,8 +8,8 @@
 //
 // Game play proceeds until the user runs out of turns or guesses the word.
 
- var movieTitles = require('./movies')
- var WordGame = require('./WordGame')
+var movieTitles = require('./movies')
+var WordGame = require('./WordGame')
 
 const MOVIE_GUESS_PROMPT = "I'm thinking of a movie title.  Want to guess it?"
 const movieGamePrompt = [
