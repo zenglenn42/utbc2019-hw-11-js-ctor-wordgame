@@ -3,6 +3,12 @@ var inquirer = require('inquirer')
 
 const WORD_DELIM = "   " // Spacing between words.
 const MAX_WRONG_GUESSES = 5
+const GOODBYE = "Goodbye"
+const WINNER = "Congratulations!"
+const BAD_GUESS = "Incorrect"
+const GOOD_GUESS = "Correct!"
+const OUT_OF_GUESSES = "Sorry, you ran out of guesses."
+const INQUIRER_ERROR = "Unexpected inquirer response."
 
 class WordGame {
   constructor(inputData, gamePrompt, letterPrompt, wordDelimeter = WORD_DELIM, maxWrongGuesses = MAX_WRONG_GUESSES) {
@@ -19,7 +25,7 @@ class WordGame {
       if (answers.playGame) {
         this.playRound()
       } else {
-        console.log("Goodbye\n")
+        console.log(`${GOODBYE}\n`)
         return
       }
     })
@@ -51,23 +57,23 @@ class WordGame {
           solved = (currGuess.indexOf('_') === -1)
           if (solved) {
             console.log(currGuess)
-            console.log("Congratulations!")
+            console.log(WINNER)
             this.play()
           } else {
               if (currGuess === prevGuess) {
                 remainingMisses--
-                console.log("Incorrect")
+                console.log(BAD_GUESS)
                 if (remainingMisses <= 0) {
-                  console.log("Sorry, you ran out of guesses.")
+                  console.log(OUT_OF_GUESSES)
                   this.play()
                 }
               } else {
-                console.log("Correct")
+                console.log(GOOD_GUESS)
               }
               this.guessLetters(currGuess, remainingMisses, wordObjs, solved)
           }
         } else {
-          throw new Error("Unexpected inquirer response.")
+          throw new Error(INQUIRER_ERROR)
         }
       })
     }
